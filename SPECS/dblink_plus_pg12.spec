@@ -52,26 +52,16 @@ USE_PGXS=1 make %{?_smp_mflags} MYSQL=0 SQLITE3=0 ORACLE=0
 ## Set variables for install
 %install
 rm -rf %{buildroot}
-
-install -d %{buildroot}%{_libdir}
-install -m 755 dblink_plus.so %{buildroot}%{_libdir}/dblink_plus.so
-install -d %{buildroot}%{_datadir}
-install -m 755 dblink_plus.sql %{buildroot}%{_datadir}/dblink_plus.sql
-install -m 755 dblink_plus--1.0.5.sql %{buildroot}%{_datadir}/dblink_plus--1.0.5.sql
-install -m 755 dblink_plus.control %{buildroot}%{_datadir}/dblink_plus.control
-install -m 755 uninstall_dblink_plus.sql %{buildroot}%{_datadir}/uninstall_dblink_plus.sql
-install -m 755 COPYRIGHT %{buildroot}%{_datadir}/COPYRIGHT_dblink_plus
-install -d %{buildroot}%{_bcdir}
-install -m 644 dblink.bc %{buildroot}%{_bcdir}/dblink.bc
-install -m 644 dblink_postgres.bc %{buildroot}%{_bcdir}/dblink_postgres.bc
-install -m 644 dblink_plus.index.bc %{buildroot}%{_bc_ind_dir}/dblink_plus.index.bc
+USE_PGXS=1 make install MYSQL=0 SQLITE3=0 ORACLE=0 DESTDIR=%{buildroot}
+install -m 644 COPYRIGHT %{buildroot}%{_datadir}/COPYRIGHT_dblink_plus
 
 %clean
 rm -rf %{buildroot}
 
 %files
-%defattr(755,root,root)
+%defattr(0755,root,root)
 %{_libdir}/dblink_plus.so
+%defattr(0644,root,root)
 %{_datadir}/dblink_plus.sql
 %{_datadir}/dblink_plus--1.0.5.sql
 %{_datadir}/dblink_plus.control
